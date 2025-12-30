@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>С новым годом, солнышко!</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0c1a2c 0%, #1a3a5f 100%);
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .card-container {
+            width: 100%;
+            max-width: 900px;
+            perspective: 1000px;
+            position: relative;
+        }
+        
+        .card {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3),
+                        0 0 100px rgba(255, 0, 100, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transform-style: preserve-3d;
+            animation: float 6s ease-in-out infinite;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 0, 100, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotateX(2deg) rotateY(2deg); }
+            50% { transform: translateY(-15px) rotateX(-1deg) rotateY(-1deg); }
+        }
+        
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        h1 {
+            font-size: 3.5rem;
+            background: linear-gradient(45deg, #ff4081, #ff79a9, #ff4081);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+            margin-bottom: 30px;
+            animation: glow 2s ease-in-out infinite alternate;
+            position: relative;
+            z-index: 10;
+        }
+        
+        @keyframes glow {
+            from { text-shadow: 0 5px 15px rgba(255, 64, 129, 0.3); }
+            to { text-shadow: 0 5px 25px rgba(255, 64, 129, 0.6), 0 0 30px rgba(255, 64, 129, 0.4); }
+        }
+        
+        .heart-wrapper {
+            position: relative;
+            margin: 20px auto 40px;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .heart-container {
+            position: relative;
+            width: 180px;
+            height: 180px;
+            animation: heartBeat 1.2s ease-in-out infinite;
+            z-index: 5;
+        }
+        
+        .heart {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff4081, #ff79a9);
+            transform: rotate(-45deg);
+            box-shadow: 0 0 50px #ff4081, 0 0 100px rgba(255, 64, 129, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            margin-top: 40px;
+        }
+        
+        .heart::before,
+        .heart::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: inherit;
+            border-radius: 50%;
+        }
+        
+        .heart::before {
+            top: -50%;
+            left: 0;
+        }
+        
+        .heart::after {
+            top: 0;
+            left: 50%;
+        }
+        
+        .heart-face {
+            position: absolute;
+            width: 70%;
+            height: 70%;
+            transform: rotate(45deg);
+            z-index: 10;
+        }
+        
+        .eye {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            top: 35px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .left-eye { left: 35px; }
+        .right-eye { right: 35px; }
+        
+        .smile {
+            position: absolute;
+            width: 50px;
+            height: 25px;
+            border-bottom: 6px solid #fff;
+            border-radius: 0 0 50px 50px;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .heart-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #ff4081;
+            border-radius: 50%;
+            opacity: 0;
+        }
+        
+        .message {
+            font-size: 1.4rem;
+            line-height: 1.7;
+            text-align: center;
+            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #ff4081;
+            animation: fadeIn 2s ease-out;
+            position: relative;
+            z-index: 1;
+            margin-top: 100px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .decorations {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .decoration {
+            width: 80px;
+            height: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: bounce 3s infinite ease-in-out;
+        }
+        
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .snowflake, .star, .gift {
+            font-size: 2.5rem;
+            color: #ff4081;
+            filter: drop-shadow(0 0 5px rgba(255, 64, 129, 0.5));
+        }
+        
+        .snowflake { animation: spin 8s linear infinite; }
+        .star { animation: pulse 2s infinite ease-in-out; }
+        .gift { animation: shake 4s infinite ease-in-out; }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(5deg); }
+            75% { transform: rotate(-5deg); }
+        }
+        
+        .footer {
+            text-align: center;
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            z-index: 1;
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        button {
+            background: linear-gradient(45deg, #ff4081, #ff79a9);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(255, 64, 129, 0.3);
+            min-width: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(255, 64, 129, 0.5);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .gift-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.3);
+        }
+        
+        .gift-btn:hover {
+            box-shadow: 0 10px 20px rgba(255, 107, 107, 0.5);
+        }
+        
+        .snow {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .flake {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            opacity: 0.8;
+        }
+        
+        .gift-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.5s ease;
+        }
+        
+        .gift-modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .gift-content {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5),
+                        0 0 0 1px rgba(255, 64, 129, 0.2),
+                        0 0 30px rgba(255, 64, 129, 0.3);
+            transform: scale(0.7) rotate(-10deg);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        
+        .gift-modal.active .gift-content {
+            transform: scale(1) rotate(0deg);
+            opacity: 1;
+        }
+        
+        .gift-content h2 {
+            font-size: 2.2rem;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff4081, #ff79a9);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .gift-content p {
+            font-size: 1.3rem;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        .gift-icon {
+            font-size: 4rem;
+            color: #ff4081;
+            margin-bottom: 20px;
+            animation: giftFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 0 10px rgba(255, 64, 129, 0.5));
+        }
+        
+        @keyframes giftFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(5deg); }
+        }
+        
+        .close-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff8e8e);
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            color: white;
+            font-weight: bold;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+        
+        .close-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.5);
+        }
+        
+        @media (max-width: 768px) {
+            h1 { 
+                font-size: 2.5rem; 
+                margin-bottom: 40px;
+            }
+            .heart-wrapper { 
+                width: 180px; 
+                height: 180px;
+                margin: 10px auto 30px;
+            }
+            .heart-container { 
+                width: 150px; 
+                height: 150px; 
+            }
+            .message { 
+                font-size: 1.1rem; 
+                margin-top: 20px;
+            }
+            .decoration { 
+                width: 60px; 
+                height: 60px; 
+            }
+            .gift-content h2 { 
+                font-size: 1.8rem; 
+            }
+            .gift-content p { 
+                font-size: 1.1rem; 
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .card { 
+                padding: 25px; 
+            }
+            h1 { 
+                font-size: 2rem; 
+                margin-bottom: 30px;
+            }
+            .heart-wrapper { 
+                width: 150px; 
+                height: 150px;
+                margin: 0 auto 20px;
+            }
+            .heart-container { 
+                width: 120px; 
+                height: 120px; 
+            }
+            .gift-content { 
+                padding: 25px; 
+            }
+            .gift-content h2 { 
+                font-size: 1.6rem; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="snow" id="snow"></div>
+    
+    <div class="card-container">
+        <div class="card">
+            <div class="header">
+                <h1>С новым годом, солнышко!</h1>
+                
+                <div class="heart-wrapper">
+                    <div class="heart-container">
+                        <div class="heart">
+                            <div class="heart-face">
+                                <div class="eye left-eye"></div>
+                                <div class="eye right-eye"></div>
+                                <div class="smile"></div>
+                            </div>
+                        </div>
+                        <div class="heart-particles" id="heart-particles"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="message">
+                Пусть Новый год принесёт тебе море любви, тепла и радости!<br>
+                Желаю, чтобы каждый твой день был наполнен улыбками, счастливыми моментами и нежностью.<br>
+                Пусть все мечты сбываются, а сердце всегда будет наполнено теплом и любовью!
+            </div>
+            
+            <div class="decorations">
+                <div class="decoration">
+                    <div class="snowflake">❄</div>
+                </div>
+                <div class="decoration">
+                    <div class="star">★</div>
+                </div>
+                <div class="decoration">
+                    <div class="gift">🎁</div>
+                </div>
+                <div class="decoration">
+                    <div class="star">★</div>
+                </div>
+                <div class="decoration">
+                    <div class="snowflake">❄</div>
+                </div>
+            </div>
+            
+            <div class="controls">
+                <button id="confettiBtn">
+                    <i class="fas fa-birthday-cake"></i> Запустить конфетти
+                </button>
+                <button id="giftBtn" class="gift-btn">
+                    <i class="fas fa-gift"></i> Забрать подарок
+                </button>
+            </div>
+            
+            <div class="footer">
+                Created by horus
+            </div>
+        </div>
+    </div>
+
+    <div class="gift-modal" id="giftModal">
+        <div class="gift-content">
+            <div class="gift-icon">🎁</div>
+            <h2>Не ожидала?)</h2>
+            <p>Это конечно не под елкой, но посмотри на компе)</p>
+            <button class="close-btn" id="closeGiftBtn">
+                <i class="fas fa-times"></i> Закрыть
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const snowContainer = document.getElementById('snow');
+        const flakeCount = 80;
+        
+        for (let i = 0; i < flakeCount; i++) {
+            const flake = document.createElement('div');
+            flake.classList.add('flake');
+            
+            const size = Math.random() * 5 + 2;
+            const startX = Math.random() * 100;
+            const duration = Math.random() * 10 + 10;
+            const delay = Math.random() * 10;
+            const opacity = Math.random() * 0.5 + 0.3;
+            
+            flake.style.width = `${size}px`;
+            flake.style.height = `${size}px`;
+            flake.style.left = `${startX}%`;
+            flake.style.opacity = opacity;
+            flake.style.animation = `fall ${duration}s linear ${delay}s infinite`;
+            
+            snowContainer.appendChild(flake);
+        }
+        
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fall {
+                0% {
+                    transform: translateY(-100px) rotate(0deg);
+                    opacity: 0;
+                }
+                10% {
+                    opacity: ${Math.random() * 0.5 + 0.3};
+                }
+                90% {
+                    opacity: ${Math.random() * 0.5 + 0.3};
+                }
+                100% {
+                    transform: translateY(100vh) rotate(360deg);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        const heartParticles = document.getElementById('heart-particles');
+        function createHeartParticles() {
+            const oldParticles = document.querySelectorAll('.particle');
+            oldParticles.forEach(p => p.remove());
+            
+            for (let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                const size = Math.random() * 8 + 4;
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 80 + 40;
+                const duration = Math.random() * 1.5 + 1;
+                const delay = Math.random() * 0.5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = '50%';
+                particle.style.top = '50%';
+                particle.style.backgroundColor = `hsl(${Math.random() * 20 + 330}, 100%, 65%)`;
+                
+                heartParticles.appendChild(particle);
+                
+                const animation = particle.animate([
+                    { 
+                        transform: `translate(-50%, -50%) translate(0, 0)`,
+                        opacity: 0.8 
+                    },
+                    { 
+                        transform: `translate(-50%, -50%) translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px)`,
+                        opacity: 0 
+                    }
+                ], {
+                    duration: duration * 1000,
+                    delay: delay * 1000,
+                    easing: 'cubic-bezier(0.215, 0.610, 0.355, 1)'
+                });
+                
+                animation.onfinish = () => {
+                    particle.remove();
+                };
+            }
+        }
+        
+        setInterval(createHeartParticles, 2000);
+        createHeartParticles(); 
+        
+        const confettiBtn = document.getElementById('confettiBtn');
+        
+        confettiBtn.addEventListener('click', function() {
+            createConfetti();
+        });
+        
+        const giftBtn = document.getElementById('giftBtn');
+        const giftModal = document.getElementById('giftModal');
+        const closeGiftBtn = document.getElementById('closeGiftBtn');
+        
+        giftBtn.addEventListener('click', function() {
+            giftModal.classList.add('active');
+            createConfetti();
+            createHeartParticles();
+            
+            const giftIcon = document.querySelector('.gift-icon');
+            giftIcon.style.animation = 'giftFloat 3s ease-in-out infinite';
+        });
+        
+        closeGiftBtn.addEventListener('click', function() {
+            giftModal.classList.remove('active');
+        });
+        
+        giftModal.addEventListener('click', function(e) {
+            if (e.target === giftModal) {
+                giftModal.classList.remove('active');
+            }
+        });
+        
+        function createConfetti() {
+            const confettiCount = 150;
+            const colors = ['#ff4081', '#ff79a9', '#ff6b6b', '#4CAF50', '#2196F3', '#9C27B0'];
+            
+            for (let i = 0; i < confettiCount; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 10 + 5;
+                const startX = Math.random() * 100;
+                const duration = Math.random() * 3 + 2;
+                const delay = Math.random() * 2;
+                
+                confetti.style.position = 'fixed';
+                confetti.style.width = `${size}px`;
+                confetti.style.height = `${size}px`;
+                confetti.style.backgroundColor = color;
+                confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+                confetti.style.left = `${startX}%`;
+                confetti.style.top = '-50px';
+                confetti.style.opacity = '0.9';
+                confetti.style.zIndex = '9999';
+                confetti.style.pointerEvents = 'none';
+                
+                document.body.appendChild(confetti);
+                
+                const animation = confetti.animate([
+                    { transform: `translate(0, 0) rotate(0deg)`, opacity: 1 },
+                    { transform: `translate(${Math.random() * 100 - 50}px, 100vh) rotate(${Math.random() * 360}deg)`, opacity: 0 }
+                ], {
+                    duration: duration * 1000,
+                    delay: delay * 1000,
+                    easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+                });
+                
+                animation.onfinish = () => {
+                    confetti.remove();
+                };
+            }
+        }
+        
+        setTimeout(createConfetti, 1000);
+        
+        const heart = document.querySelector('.heart');
+        heart.addEventListener('click', function() {
+            this.style.transform = 'rotate(-45deg) scale(1.2)';
+            this.style.transition = 'transform 0.3s';
+            createHeartParticles();
+            
+            setTimeout(() => {
+                this.style.transform = 'rotate(-45deg) scale(1)';
+            }, 300);
+            
+            createConfetti();
+        });
+    </script>
+</body>
+</html>
