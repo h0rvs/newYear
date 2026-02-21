@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Present Simple · динозавры · 10 вопросов</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Roboto', system-ui, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #2d6a4a 0%, #1b8c5e 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* главный контейнер — без боковой панели, викторина на всю ширину */
+        .game-container {
+            max-width: 1100px;
+            width: 100%;
+            background-color: #fff8e7;
+            border-radius: 60px 60px 40px 40px;
+            box-shadow: 0 25px 35px -8px #1b4d2b, inset 0 0 0 2px #fbefcf;
+            overflow: hidden;
+            border: 2px solid #dbb471;
+        }
+
+        /* шапка с динозаврами */
+        .header {
+            background: #c5e0b4;
+            background-image: repeating-linear-gradient(45deg, #d9efc7 0px, #d9efc7 25px, #b8d9a0 25px, #b8d9a0 50px);
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 5px solid #b5954c;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .title-section h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: #253b1a;
+            text-shadow: 4px 4px 0 #b1cf8a, 2px 2px 0 #3f642a;
+            letter-spacing: 1.5px;
+        }
+
+        .dino-badge {
+            background: #ec9f3b;
+            border-radius: 50px;
+            padding: 12px 30px;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #fef7cf;
+            box-shadow: inset 0 -5px 0 #aa691f, 0 7px 0 #61471a;
+            transform: rotate(1deg);
+            border: 3px solid #feda7a;
+        }
+
+        .header-dino-icons {
+            font-size: 3.2rem;
+            filter: drop-shadow(3px 5px 0 #8b6b31);
+            display: flex;
+            gap: 5px;
+        }
+
+        /* область викторины — теперь занимает всю ширину, без сайдбара */
+        .quiz-area {
+            padding: 40px 40px 50px;
+            background: #fffef5;
+        }
+
+        /* вопрос и ответы */
+        .question-card {
+            background: #ffeec7;
+            border-radius: 55px 55px 45px 25px;
+            padding: 30px;
+            border: 4px solid #dba45a;
+            box-shadow: 0 15px 0 #b27b47, inset 0 2px 20px #fff0b5;
+            margin-bottom: 30px;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 4px dotted #d49c4a;
+            padding-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .question-number {
+            background: #c29a4f;
+            border-radius: 70px;
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #241f09;
+            box-shadow: inset 0 -5px 0 #826224, 0 6px 0 #614e27;
+            border: 3px solid #efd17e;
+        }
+
+        .question-text {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #23471a;
+            line-height: 1.3;
+            flex: 1;
+            word-break: break-word;
+        }
+
+        /* изображение динозавра */
+        .dino-question-img {
+            font-size: 4.5rem;
+            line-height: 1;
+            background: #c0d68e;
+            border-radius: 40px;
+            padding: 10px 20px;
+            box-shadow: inset 0 -5px 0 #8aa65e, 0 6px 0 #55723b;
+            border: 3px solid #fdebb3;
+            margin-left: auto;
+        }
+
+        .answers-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin: 25px 0 20px;
+        }
+
+        .answer-btn {
+            background: #fbde9e;
+            border: 4px solid #be8b41;
+            border-radius: 70px;
+            padding: 20px 10px;
+            font-size: 1.9rem;
+            font-weight: 600;
+            color: #203713;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 9px 0 #916f38, 0 12px 18px rgba(80, 50, 10, 0.3);
+            transition: 0.05s linear;
+            word-break: break-word;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .answer-btn:hover:not(.correct):not(.wrong):not(.disabled) {
+            background: #ffcf70;
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #916f38, 0 15px 20px #3d2f12;
+        }
+
+        .answer-btn.correct {
+            background: #87d17c;
+            border-color: #3b822d;
+            color: #194d0e;
+            box-shadow: 0 7px 0 #2f7323;
+            transform: translateY(2px);
+            pointer-events: none;
+        }
+
+        .answer-btn.wrong {
+            background: #dc8b8b;
+            border-color: #b14444;
+            color: #520f0f;
+            box-shadow: 0 7px 0 #912a2a;
+            transform: translateY(2px);
+            pointer-events: none;
+            text-decoration: line-through wavy #b31e1e 3px;
+        }
+
+        .answer-btn.disabled {
+            pointer-events: none;
+            opacity: 0.8;
+        }
+
+        .feedback-panel {
+            background: #f3e1c2;
+            border-radius: 50px;
+            padding: 20px 25px;
+            margin: 30px 0 25px;
+            font-size: 2rem;
+            font-weight: 600;
+            color: #1e4d24;
+            border-left: 15px solid #f0b345;
+            box-shadow: inset 0 2px 10px #fdf0b2;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 2rem;
+            font-weight: 700;
+            color: #6a481e;
+            background: #eedbac;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 3px solid #cf9f45;
+        }
+
+        .next-btn {
+            background: #4da87a;
+            border: none;
+            border-radius: 60px;
+            padding: 20px 50px;
+            font-size: 2.3rem;
+            font-weight: 800;
+            color: #fef7cd;
+            box-shadow: 0 13px 0 #1b6e45, 0 8px 15px black;
+            cursor: pointer;
+            transition: 0.07s;
+            border: 3px solid #b9f0b9;
+            width: 100%;
+            letter-spacing: 3px;
+        }
+
+        .next-btn:active {
+            transform: translateY(7px);
+            box-shadow: 0 6px 0 #1b6e45;
+        }
+
+        .next-btn:disabled {
+            opacity: 0.4;
+            transform: translateY(4px);
+            box-shadow: 0 9px 0 #1b6e45;
+            pointer-events: none;
+        }
+
+        .footer {
+            background: #306b42;
+            color: #fbeecc;
+            text-align: center;
+            padding: 15px;
+            font-size: 1.4rem;
+            border-top: 6px solid #aacf8c;
+        }
+
+        /* адаптация */
+        @media (max-width: 700px) {
+            .answers-grid {
+                grid-template-columns: 1fr;
+            }
+            .question-text {
+                font-size: 1.8rem;
+            }
+            .dino-question-img {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="game-container">
+    <!-- шапка с динозаврами -->
+    <div class="header">
+        <div class="title-section">
+            <h1>Present Simple</h1>
+            <div class="dino-badge">🦕 DINO EDITION 🦖</div>
+        </div>
+        <div class="header-dino-icons">
+            <span>🦴</span><span>🌿</span><span>🥚</span><span>🦷</span>
+        </div>
+    </div>
+
+    <!-- только викторина, без боковой панели -->
+    <div class="quiz-area" id="quizArea">
+        <div class="question-card" id="questionCard">
+            <div class="question-header">
+                <span class="question-number" id="questionNum">1</span>
+                <span class="question-text" id="questionText">Загрузка...</span>
+                <span class="dino-question-img" id="dinoImage">🦖</span>
+            </div>
+
+            <div class="answers-grid" id="answersContainer"></div>
+
+            <div class="feedback-panel" id="feedbackMessage">
+                <span>🌱</span> <span id="feedbackText">Выбери верную форму!</span>
+            </div>
+
+            <div class="progress-bar">
+                <span id="counter">1 / 10</span>
+                <span id="scoreDisplay">🦴 0 / 10</span>
+            </div>
+
+            <button class="next-btn" id="nextBtn" disabled>⏩ Дальше</button>
+        </div>
+    </div>
+
+    <div class="footer">
+        🦕🦖 10 вопросов о динозаврах · Present Simple
+    </div>
+</div>
+
+<script>
+    (function() {
+        // 10 вопросов с картинками (разные динозавры)
+        const questions = [
+            {
+                question: "Tyrannosaurus rex ... very small arms.",
+                options: ["has", "have", "is have", "are have"],
+                correct: 0,
+                img: "🦖"
+            },
+            {
+                question: "Triceratops ... three horns.",
+                options: ["has", "have", "do have", "does have"],
+                correct: 0,
+                img: "🦏🌿"
+            },
+            {
+                question: "Stegosaurus ... plates on its back.",
+                options: ["has", "have", "are have", "is"],
+                correct: 0,
+                img: "🦕🔺"
+            },
+            {
+                question: "Pterodactyls ... in the air.",
+                options: ["fly", "flies", "is fly", "are flies"],
+                correct: 0,
+                img: "🦇🌪️"
+            },
+            {
+                question: "Brachiosaurus ... a very long neck.",
+                options: ["have", "has", "does have", "are"],
+                correct: 1,
+                img: "🦕🌿"
+            },
+            {
+                question: "Velociraptors ... fast runners.",
+                options: ["is", "are", "am", "be"],
+                correct: 1,
+                img: "🏃🦖"
+            },
+            {
+                question: "Diplodocus ... plants every day.",
+                options: ["eat", "eats", "do eat", "are eat"],
+                correct: 1,
+                img: "🌿🦕"
+            },
+            {
+                question: "Many dinosaurs ... eggs.",
+                options: ["lay", "lays", "is lay", "does lay"],
+                correct: 0,
+                img: "🥚🦕"
+            },
+            {
+                question: "Apatosaurus ... a long tail.",
+                options: ["has", "have", "are have", "do have"],
+                correct: 0,
+                img: "🦕🌀"
+            },
+            {
+                question: "Parasaurolophus ... a hollow crest.",
+                options: ["has", "have", "do have", "are"],
+                correct: 0,
+                img: "🎺🦕"
+            }
+        ];
+
+        let current = 0;
+        let score = 0;
+        let answered = false;
+        const total = questions.length;
+
+        // элементы
+        const questionNumSpan = document.getElementById('questionNum');
+        const questionTextSpan = document.getElementById('questionText');
+        const dinoImgSpan = document.getElementById('dinoImage');
+        const answersDiv = document.getElementById('answersContainer');
+        const feedbackSpan = document.getElementById('feedbackText');
+        const feedbackPanel = document.getElementById('feedbackMessage');
+        const nextBtn = document.getElementById('nextBtn');
+        const counterSpan = document.getElementById('counter');
+        const scoreSpan = document.getElementById('scoreDisplay');
+
+        function render() {
+            const q = questions[current];
+            questionNumSpan.textContent = current + 1;
+            questionTextSpan.textContent = q.question;
+            dinoImgSpan.textContent = q.img;
+
+            counterSpan.textContent = `${current + 1} / ${total}`;
+            scoreSpan.textContent = `🦴 ${score} / ${total}`;
+            answersDiv.innerHTML = '';
+            answered = false;
+            nextBtn.disabled = true;
+
+            feedbackSpan.textContent = '🌱 Выбери ответ!';
+            feedbackPanel.style.background = '#f3e1c2';
+
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'answer-btn';
+                btn.textContent = opt;
+                btn.dataset.idx = idx;
+                btn.addEventListener('click', (e) => answerHandler(e, idx));
+                answersDiv.appendChild(btn);
+            });
+        }
+
+        function answerHandler(event, chosenIdx) {
+            if (answered) return;
+
+            const q = questions[current];
+            const isCorrect = (chosenIdx === q.correct);
+            const btns = document.querySelectorAll('.answer-btn');
+
+            btns.forEach((btn, i) => {
+                btn.classList.add('disabled');
+                if (i === q.correct) btn.classList.add('correct');
+                if (i === chosenIdx && !isCorrect) btn.classList.add('wrong');
+                if (i === chosenIdx && isCorrect) btn.classList.add('correct');
+            });
+
+            if (isCorrect) {
+                score++;
+                feedbackSpan.textContent = '✅ Верно! Отличная работа!';
+                feedbackPanel.style.background = '#c3e8b4';
+            } else {
+                feedbackSpan.textContent = `❌ Ошибка. Правильно: "${q.options[q.correct]}"`;
+                feedbackPanel.style.background = '#f5cfcf';
+            }
+
+            answered = true;
+            scoreSpan.textContent = `🦴 ${score} / ${total}`;
+            nextBtn.disabled = false;
+        }
+
+        function nextHandler() {
+            if (!answered) return;
+
+            if (current < total - 1) {
+                current++;
+                render();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function finishQuiz() {
+            // Показываем финальный экран
+            questionTextSpan.textContent = 'Викторина завершена!';
+            dinoImgSpan.textContent = '🏆🦕';
+            answersDiv.innerHTML = '';
+            feedbackSpan.textContent = `Ты набрал ${score} из ${total} очков!`;
+            feedbackPanel.style.background = '#f3d69c';
+            nextBtn.disabled = true;
+
+            // кнопка "снова"
+            const restartBtn = document.createElement('button');
+            restartBtn.textContent = '🔄 Сыграть ещё';
+            restartBtn.className = 'next-btn';
+            restartBtn.style.marginTop = '25px';
+            restartBtn.onclick = () => {
+                current = 0;
+                score = 0;
+                answered = false;
+                render();
+                nextBtn.disabled = true;
+                restartBtn.remove();
+            };
+            document.getElementById('questionCard').appendChild(restartBtn);
+        }
+
+        nextBtn.addEventListener('click', nextHandler);
+
+        // старт
+        render();
+    })();
+</script>
+</body>
+</html>
